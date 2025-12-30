@@ -1,4 +1,4 @@
-@MyRecipeBook.API_HostAddress = http://localhost:5029
+@MyRecipeBook.API_HostAddress = http://localhost:5120
 
 GET {{MyRecipeBook.API_HostAddress}}/weatherforecast/
 Accept: application/json
