@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using MyRecipeBook.Communication.Requests;
 
 namespace MyRecipeBook.Application.Services.AutoMapper;
