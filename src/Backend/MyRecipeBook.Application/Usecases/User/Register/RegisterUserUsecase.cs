@@ -3,13 +3,16 @@ using MyRecipeBook.Application.Services.Cryptography;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Response;
 using MyRecipeBook.Domain.Entities;
+using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Exeptions.ExceptionsBase;
 
 namespace MyRecipeBook.Application.Usecases.User.Register;
 
 public class RegisterUserUsecase
 {
-    public ResponseRegisterUserJson Execute(RequestRegisterUserJson request)
+    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+    private readonly IUserReadOnlyRepository _userRepository;
+    public async Task <ResponseRegisterUserJson> Execute(RequestRegisterUserJson request)
     {
         // Validar a Request 
         Validate(request);
@@ -27,6 +30,7 @@ public class RegisterUserUsecase
         user.Password = cripPassword.Encrypt(request.Password);
 
         // Salvar no bando de dados 
+        _userWriteOnlyRepository.Add(user);
         return new ResponseRegisterUserJson
         {
             Name = request.Name,
