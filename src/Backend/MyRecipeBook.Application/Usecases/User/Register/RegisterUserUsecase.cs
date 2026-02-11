@@ -10,8 +10,8 @@ namespace MyRecipeBook.Application.Usecases.User.Register;
 
 public class RegisterUserUsecase
 {
-    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
-    private readonly IUserReadOnlyRepository _userRepository;
+    private readonly IUserWriteOnlyRepository _writeOnlyRepository;
+    private readonly IUserReadOnlyRepository _readOnlyRepository;
     public async Task <ResponseRegisterUserJson> Execute(RequestRegisterUserJson request)
     {
         // Validar a Request 
@@ -30,7 +30,7 @@ public class RegisterUserUsecase
         user.Password = cripPassword.Encrypt(request.Password);
 
         // Salvar no bando de dados 
-        _userWriteOnlyRepository.Add(user);
+        await _writeOnlyRepository.Add(user);
         return new ResponseRegisterUserJson
         {
             Name = request.Name,
