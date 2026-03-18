@@ -14,13 +14,13 @@ public class RegisterUserUsecase : IRegisterUserUsecase
     private readonly IUserWriteOnlyRepository _writeOnlyRepository;
     private readonly IUserReadOnlyRepository _readOnlyRepository;
     private readonly IMapper _mapper;
-    private PasswordEncripter _passwordencripter;
+    private PasswordEncripter _passwordEncripter;
 
-    public RegisterUserUsecase(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository, PasswordEncripter passwordencripter,IMapper mapper)
+    public RegisterUserUsecase(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository, PasswordEncripter passwordEncripter, IMapper mapper)
     {
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
-        _passwordencripter = passwordencripter;
+        _passwordEncripter = passwordEncripter;
         _mapper = mapper;
     }
 
@@ -29,12 +29,10 @@ public class RegisterUserUsecase : IRegisterUserUsecase
         // Validar a Request 
         Validate(request);
 
-       
-
         var user = _mapper.Map<Domain.Entities.User>(request);
 
         // Criptografar a senha 
-        user.Password = _passwordencripterq.Encrypt(request.Password);
+        user.Password = _passwordEncripter.Encrypt(request.Password);
 
         // Salvar no bando de dados 
         await _writeOnlyRepository.Add(user);
